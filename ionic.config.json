@@ -1,5 +1,7 @@
 {
   "name": "dynammic-trip-planner",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

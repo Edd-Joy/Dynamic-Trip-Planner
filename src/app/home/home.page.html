@@ -6,6 +6,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content scrollY="false">
+
+  
   <div #map id="map"></div>
+  <app-drawer (openStateChanged)="toggleBackdrop($event)"></app-drawer>
 </ion-content>
