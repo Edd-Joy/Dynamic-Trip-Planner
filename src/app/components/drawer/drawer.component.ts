@@ -13,6 +13,21 @@ export class DrawerComponent implements AfterViewInit {
 
   isOpen = false;
   openHeight = 0;
+
+  //Array of buses
+  busDetails = [
+    {
+      busName : "Shukran",
+      arrivalTime : "4:00 PM",
+      busEndLocation : "Thrissur"
+    },
+    {
+      busName : "Parakum Thalika",
+      arrivalTime : "3:00 PM",
+      busEndLocation : "Thrissur"
+    }
+  ];
+
   constructor(private plt: Platform, private gestureCtrl: GestureController) { }
 
   async ngAfterViewInit() {

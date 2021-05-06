@@ -4,11 +4,29 @@
       <div class="drawer-pull"></div>
     </ion-button>
   </div>
-  <ion-list>
-    <ion-item>Bus 1</ion-item>
-    <ion-item>Bus 2</ion-item>
-    <ion-item>Bus 3</ion-item>
-    <ion-item>Bus 4</ion-item>
-    <ion-item>Bus 5</ion-item>
+  <div style="background-color: darkgray;">
+    <ion-row style="text-align: center;">
+      <ion-col style="text-align: left; color: white;"><h5>From</h5></ion-col>
+      <ion-col style="color: white;"> <h5>Bus Name</h5></ion-col>
+      <ion-col style="text-align: right; color: white;"><h5>To</h5></ion-col>
+    </ion-row>
+  </div>
+  <ion-list *ngFor="let bus of busDetails" style="text-align: center;">
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col style="text-align: left; color: green;">
+            <ionLabel>{{bus.arrivalTime}}</ionLabel>
+          </ion-col>
+          <ion-col class="ion-margin-horizontal" style="text-transform: uppercase;">
+            <ionLabel><h3> {{bus.busName}} </h3></ionLabel>
+          </ion-col>
+          <ion-col style="text-align: right; color: rgb(24, 168, 168)">
+            <ionLabel>{{bus.busEndLocation}}</ionLabel>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
   </ion-list>
 </div>>

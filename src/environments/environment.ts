@@ -3,7 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebaseConfig : {
+    apiKey: "AIzaSyBa0aNJKl1blkAq8XuIrbMWSzEykgjKjvM",
+    authDomain: "dynamic-trip-planner-310412.firebaseapp.com",
+    projectId: "dynamic-trip-planner-310412",
+    storageBucket: "dynamic-trip-planner-310412.appspot.com",
+    messagingSenderId: "855336486972",
+    appId: "1:855336486972:web:01d0fb385446ac76505b39",
+    measurementId: "G-T7Y09NQ85W"
+  }
 };
 
 /*

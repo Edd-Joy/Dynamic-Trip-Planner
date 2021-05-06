@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { FirebaseService,} from '../services/firebase.service';
 
 declare var google: any;
 
@@ -15,20 +17,16 @@ export class HomePage {
   @ViewChild('map', {read: ElementRef, static: false}) mapRef: ElementRef;
   
   infoWindows: any = [];
-  markers: any = [
-    {
-      title: "Vettikkattiri Bus Stop",
-      latitude: "10.731151996842799",
-      longitude: "76.28255923660738"
-    },
-    {
-      title: "Vetti Stop 2",
-      latitude: "10.727894391125544",
-      longitude: "76.28247438539123"
-    }
-  ];
+  markers: any = [];
 
-  constructor() {}
+  constructor(private fbService: FirebaseService) {}
+
+  ngOnInit() {
+    this.fbService.getStops().pipe(take(1))
+    .subscribe(allStops => {
+      this.markers = allStops
+    });
+  }
 
   ionViewDidEnter() {
     this.showMap();
@@ -39,12 +37,13 @@ export class HomePage {
       let position = new google.maps.LatLng(marker.latitude, marker.longitude);
       let mapMarker = new google.maps.Marker({
         position: position,
-        title: marker.title,
+        title: marker.id,
         latitude: marker.latitude,
         longitude: marker.longitude
       });
       mapMarker.setMap(this.map);
       this.addInfoWindowToMarker(mapMarker);
+      console.log('markers: ', marker)
     }
   }
 
@@ -66,7 +65,7 @@ export class HomePage {
       google.maps.event.addListenerOnce(infoWindow, 'domready', () => {
         document.getElementById('navigate').addEventListener('click',() => {
           console.log('Navigation Initialized !!!');
-          window.open('https://www.google.com/maps/dir/' + marker.latitude + ',' + marker.longitude);
+          window.open('https://www.google.com/maps/dir//' + marker.latitude + ',' + marker.longitude);
         });
       });
     });
