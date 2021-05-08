@@ -1,5 +1,8 @@
 import { Component, ElementRef, OnInit, Output, ViewChild, EventEmitter, AfterViewInit } from '@angular/core';
+import { FirebaseApp } from '@angular/fire';
 import { GestureController, Platform } from '@ionic/angular';
+import { take } from 'rxjs/operators';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 
 @Component({
@@ -8,27 +11,39 @@ import { GestureController, Platform } from '@ionic/angular';
   styleUrls: ['./drawer.component.scss'],
 })
 export class DrawerComponent implements AfterViewInit {
-  @ViewChild('drawer', { read: ElementRef}) drawer: ElementRef;
+  @ViewChild('drawer', { read: ElementRef }) drawer: ElementRef;
   @Output('openStateChanged') openState: EventEmitter<boolean> = new EventEmitter();
 
   isOpen = false;
   openHeight = 0;
 
   //Array of buses
-  busDetails = [
-    {
-      busName : "Shukran",
-      arrivalTime : "4:00 PM",
-      busEndLocation : "Thrissur"
-    },
-    {
-      busName : "Parakum Thalika",
-      arrivalTime : "3:00 PM",
-      busEndLocation : "Thrissur"
-    }
-  ];
+  busDetails = [];
+  busDetailsOfStop = [];
+  stopName = "Vettikkattiri";
 
-  constructor(private plt: Platform, private gestureCtrl: GestureController) { }
+  constructor(private plt: Platform, private gestureCtrl: GestureController, private fbService: FirebaseService) { }
+
+  ngOnInit() {
+    this.fbService.getStops().pipe(take(1))
+      .subscribe(allStops => {
+        this.busDetails = allStops
+      });
+
+  }
+
+  // Extracts ArrivalTime, BusName & Destination from firebase
+  extractValues(arr, prop, prop2, prop3) {
+    let extractedValue = [];
+    for (let i = 0; i < arr.length; ++i) {
+      if (arr[i].id == this.stopName) {
+        extractedValue.push(arr[i][prop]);
+        extractedValue.push(arr[i][prop2]);
+        extractedValue.push(arr[i][prop3]);
+      }
+    }
+    return extractedValue;
+  }
 
   async ngAfterViewInit() {
     const drawer = this.drawer.nativeElement;
@@ -38,7 +53,7 @@ export class DrawerComponent implements AfterViewInit {
       el: drawer,
       gestureName: 'swipe',
       direction: 'y',
-      onMove: ev=> {
+      onMove: ev => {
         if (ev.deltaY < -this.openHeight) return;
         drawer.style.transform = `translateY(${ev.deltaY}px)`;
       },
@@ -63,6 +78,11 @@ export class DrawerComponent implements AfterViewInit {
   toggleDrawer() {
     const drawer = this.drawer.nativeElement;
     this.openState.emit(!this.isOpen);
+
+    // assign Extracted values to busDetailsOfStop
+    this.busDetailsOfStop = this.extractValues(this.busDetails, 'BusArrivalTime', 'BusList', 'BusDestination');
+    // console.log("busArrivalTime: ", this.busDetailsOfStop);
+    // console.log("busDetails: ", this.busDetails);
 
     if (this.isOpen) {
       drawer.style.transition = '.4s ease-out';

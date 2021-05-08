@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { FirebaseService,} from '../services/firebase.service';
+import { FirebaseService, } from '../services/firebase.service';
 
 declare var google: any;
 
@@ -14,18 +14,18 @@ export class HomePage {
 
   map: any;
 
-  @ViewChild('map', {read: ElementRef, static: false}) mapRef: ElementRef;
-  
+  @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
+
   infoWindows: any = [];
   markers: any = [];
 
-  constructor(private fbService: FirebaseService) {}
+  constructor(private fbService: FirebaseService) { }
 
   ngOnInit() {
     this.fbService.getStops().pipe(take(1))
-    .subscribe(allStops => {
-      this.markers = allStops
-    });
+      .subscribe(allStops => {
+        this.markers = allStops
+      });
   }
 
   ionViewDidEnter() {
@@ -43,17 +43,16 @@ export class HomePage {
       });
       mapMarker.setMap(this.map);
       this.addInfoWindowToMarker(mapMarker);
-      console.log('markers: ', marker)
+      console.log('marker: ', marker)
     }
   }
 
   addInfoWindowToMarker(marker) {
     let infoWindowContent = '<div id="content">' +
-                              '<h2 id="firstHeading" class"firstHeading">' + marker.title + '</h2>' +
-                              '<p>Latitude: ' + marker.latitude + '</p>' +
-                              '<p>Longitude: ' + marker.longitude + '</p>' +
-                              '<ion-button id="navigate">Navigate</ion-button>' +
-                              '</div>';
+      '<h2 id="firstHeading" class"firstHeading">' + marker.title + '</h2>' +
+      '<p>Bus Stop</p>' +
+      '<ion-button id="navigate">Let\'s Go</ion-button>' +
+      '</div>';
 
     let infoWindow = new google.maps.InfoWindow({
       content: infoWindowContent
@@ -63,7 +62,7 @@ export class HomePage {
       this.closeAllInfoWindows();
       infoWindow.open(this.map, marker);
       google.maps.event.addListenerOnce(infoWindow, 'domready', () => {
-        document.getElementById('navigate').addEventListener('click',() => {
+        document.getElementById('navigate').addEventListener('click', () => {
           console.log('Navigation Initialized !!!');
           window.open('https://www.google.com/maps/dir//' + marker.latitude + ',' + marker.longitude);
         });
@@ -73,7 +72,7 @@ export class HomePage {
   }
 
   closeAllInfoWindows() {
-    for(let window of this.infoWindows) {
+    for (let window of this.infoWindows) {
       window.close();
     }
   }
@@ -84,8 +83,8 @@ export class HomePage {
       center: location,
       zoom: 15,
       disableDefaultUI: true
-      }
-      this.map = new google.maps.Map(this.mapRef.nativeElement, options);
-      this.addMarkersToMap(this.markers);
+    }
+    this.map = new google.maps.Map(this.mapRef.nativeElement, options);
+    this.addMarkersToMap(this.markers);
   }
 }
