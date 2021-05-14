@@ -20,7 +20,7 @@ export class DrawerComponent implements AfterViewInit {
   //Array of buses
   busDetails = [];
   busDetailsOfStop = [];
-  stopName = "Vettikkattiri";
+  stopName: string;
 
   constructor(private plt: Platform, private gestureCtrl: GestureController, private fbService: FirebaseService) { }
 
@@ -79,10 +79,11 @@ export class DrawerComponent implements AfterViewInit {
     const drawer = this.drawer.nativeElement;
     this.openState.emit(!this.isOpen);
 
+    //Set current stop ID
+    this.stopName = this.fbService.getStopID();
+
     // assign Extracted values to busDetailsOfStop
     this.busDetailsOfStop = this.extractValues(this.busDetails, 'BusArrivalTime', 'BusList', 'BusDestination');
-    // console.log("busArrivalTime: ", this.busDetailsOfStop);
-    // console.log("busDetails: ", this.busDetails);
 
     if (this.isOpen) {
       drawer.style.transition = '.4s ease-out';

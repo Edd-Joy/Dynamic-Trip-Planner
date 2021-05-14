@@ -22,6 +22,7 @@ export class HomePage {
   constructor(private fbService: FirebaseService) { }
 
   ngOnInit() {
+    console.log("Started ngOnInit");
     this.fbService.getStops().pipe(take(1))
       .subscribe(allStops => {
         this.markers = allStops
@@ -29,6 +30,7 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
+    console.log("Started ionViewDidEnter");
     this.showMap();
   }
 
@@ -60,6 +62,8 @@ export class HomePage {
 
     marker.addListener('click', () => {
       this.closeAllInfoWindows();
+      // using fbService to push StopID
+      this.fbService.setStopID(marker.title);
       infoWindow.open(this.map, marker);
       google.maps.event.addListenerOnce(infoWindow, 'domready', () => {
         document.getElementById('navigate').addEventListener('click', () => {
