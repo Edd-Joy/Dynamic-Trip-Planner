@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, Output, ViewChild, EventEmitter, AfterViewInit } from '@angular/core';
-import { FirebaseApp } from '@angular/fire';
 import { GestureController, Platform } from '@ionic/angular';
 import { take } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/services/firebase.service';

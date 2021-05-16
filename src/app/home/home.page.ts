@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { FirebaseService, } from '../services/firebase.service';
+import { Storage } from '@ionic/storage-angular';
 
 declare var google: any;
 
@@ -17,20 +18,29 @@ export class HomePage {
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
   infoWindows: any = [];
-  markers: any = [];
+  markers: any = this.assignValues();
+  private _storage: Storage | null = null;
 
-  constructor(private fbService: FirebaseService) { }
+  constructor(private fbService: FirebaseService, private storage: Storage) { }
 
-  ngOnInit() {
-    console.log("Started ngOnInit");
+ // Used to retrive data from Firebase
+  async ngOnInit() {
     this.fbService.getStops().pipe(take(1))
-      .subscribe(allStops => {
+      .subscribe(async allStops => {
         this.markers = allStops
+        if (this.markers != "[]") { //Prevent overwriting blank data.
+          // Write to localStorage for persistence
+          await this.storage.set('localData', JSON.stringify(this.markers));
+          this.assignValues();
+        }
       });
   }
 
+  async assignValues() {
+    this.markers = JSON.parse(await this.storage.get('localData'));
+  }
+
   ionViewDidEnter() {
-    console.log("Started ionViewDidEnter");
     this.showMap();
   }
 
@@ -45,7 +55,6 @@ export class HomePage {
       });
       mapMarker.setMap(this.map);
       this.addInfoWindowToMarker(mapMarker);
-      console.log('marker: ', marker)
     }
   }
 
@@ -67,7 +76,6 @@ export class HomePage {
       infoWindow.open(this.map, marker);
       google.maps.event.addListenerOnce(infoWindow, 'domready', () => {
         document.getElementById('navigate').addEventListener('click', () => {
-          console.log('Navigation Initialized !!!');
           window.open('https://www.google.com/maps/dir//' + marker.latitude + ',' + marker.longitude);
         });
       });
