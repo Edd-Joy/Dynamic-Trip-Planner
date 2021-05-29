@@ -1,0 +1,19 @@
+.title-img{
+    position: fixed;
+    align-items: center;
+    top: 0%;
+    margin: 10px;
+}
+.container {
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+ion-button{
+    margin: 5px;
+    padding-bottom: 5px;
+}

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons> Dynammic Trip Planner
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-searchbar animated="true" (ionChange)="filterList($event)" color="light"></ion-searchbar>
+
+    <div>
+      <ion-list lines="none">
+        <ion-item  *ngFor="let busStop of busList" class="border">
+          <ion-label>
+            <ion-item>
+              <h3>{{ busStop.id }}</h3>
+            </ion-item>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+</ion-content>

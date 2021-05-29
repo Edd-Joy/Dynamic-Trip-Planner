@@ -23,7 +23,7 @@ export class HomePage {
 
   constructor(private fbService: FirebaseService, private storage: Storage) { }
 
- // Used to retrive data from Firebase
+  // Used to retrive data from Firebase
   async ngOnInit() {
     this.fbService.getStops().pipe(take(1))
       .subscribe(async allStops => {
@@ -90,12 +90,24 @@ export class HomePage {
   }
 
   showMap() {
-    const location = new google.maps.LatLng(10.72815116035569, 76.28984519824705);
+    const location = new google.maps.LatLng(10.525092203000622, 76.2142903714024);
+    const myStyles = [
+      {
+        featureType: "poi",
+        elementType: "labels",
+        stylers: [
+          { visibility: "off"}
+        ]
+      }
+    ];
     const options = {
       center: location,
       zoom: 15,
-      disableDefaultUI: true
-    }
+      disableDefaultUI: true,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      streetViewControl: false,
+      styles: myStyles
+    };
     this.map = new google.maps.Map(this.mapRef.nativeElement, options);
     this.addMarkersToMap(this.markers);
   }
