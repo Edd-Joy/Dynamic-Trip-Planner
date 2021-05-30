@@ -1,1 +1,7 @@
-{}
+{
+  "linuxAndroidStudioPath": "/home/edwin/3rd Party/android-studio/bin/studio.sh",
+  "appId": "com.eddy.tripplanner",
+  "appName": "dynamic_trip_planner",
+  "webDir": "www",
+  "npmClient": "npm"
+}

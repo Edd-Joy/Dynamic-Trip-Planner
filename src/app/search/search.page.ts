@@ -37,4 +37,10 @@ export class SearchPage implements OnInit {
     });
   }
 
+  //Push the clicked stop to service, to be used in home.page.ts 
+  async redirectToStop(event) {
+    console.log(event);
+    this.fbService.setRedirectStop(event);
+  }
+
 }

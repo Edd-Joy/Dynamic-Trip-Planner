@@ -12,7 +12,7 @@
       <ion-list lines="none">
         <ion-item  *ngFor="let busStop of busList" class="border">
           <ion-label>
-            <ion-item>
+            <ion-item  routerLink="/home" button="true" (click)="redirectToStop(busStop.id)" >
               <h3>{{ busStop.id }}</h3>
             </ion-item>
           </ion-label>

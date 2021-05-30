@@ -19,6 +19,9 @@ export class HomePage {
 
   infoWindows: any = [];
   markers: any = this.assignValues();
+  currentRedirectStop: string = this.fbService.getRedirectStop();
+  redirectLat: number = 10.525092203000622;
+  redirectLng: number = 76.2142903714024;
   private _storage: Storage | null = null;
 
   constructor(private fbService: FirebaseService, private storage: Storage) { }
@@ -88,15 +91,25 @@ export class HomePage {
       window.close();
     }
   }
+  // extract location data from clicked stop in search.page.ts
+  extractLocation(data) {
+    for (let i = 0; i < this.markers.length; ++i) {
+      if (this.markers[i].id == data) {
+        this.redirectLat = this.markers[i].latitude;
+        this.redirectLng = this.markers[i].longitude;
+      }
+    }
+  }
 
   showMap() {
-    const location = new google.maps.LatLng(10.525092203000622, 76.2142903714024);
+    this.extractLocation(this.currentRedirectStop);
+    const location = new google.maps.LatLng(this.redirectLat, this.redirectLng);
     const myStyles = [
       {
         featureType: "poi",
         elementType: "labels",
         stylers: [
-          { visibility: "off"}
+          { visibility: "off" }
         ]
       }
     ];

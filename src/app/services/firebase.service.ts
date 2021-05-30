@@ -12,6 +12,7 @@ export class FirebaseService {
   localData: any = [];
   _storage: Storage | null = null;
   stopID: string;
+  redirectStop: string;
 
   constructor(private afs: AngularFirestore, private storage: Storage) {
     this.initStorage();
@@ -27,6 +28,8 @@ export class FirebaseService {
   getStops() {
     return this.stopsCollection.valueChanges({ idField: 'id' });
   }
+
+  //To set & get stopName of selected stop to fetch data for the drawer
   
   getStopID() {
     return this.stopID;
@@ -34,6 +37,16 @@ export class FirebaseService {
 
   setStopID(data) {
     this.stopID = data;
+  }
+
+ //To set & get stopName from search and redirect to maps
+
+  setRedirectStop(data) {
+    this.redirectStop = data;
+  }
+
+  getRedirectStop() {
+    return this.redirectStop;
   }
 
 }
