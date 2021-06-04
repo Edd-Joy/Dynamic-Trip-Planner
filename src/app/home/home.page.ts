@@ -22,6 +22,7 @@ export class HomePage {
   currentRedirectStop: string = this.fbService.getRedirectStop();
   redirectLat: number = 10.525092203000622;
   redirectLng: number = 76.2142903714024;
+  zoomLevelAtInit: number = 15;
   private _storage: Storage | null = null;
 
   constructor(private fbService: FirebaseService, private storage: Storage) { }
@@ -97,6 +98,8 @@ export class HomePage {
       if (this.markers[i].id == data) {
         this.redirectLat = this.markers[i].latitude;
         this.redirectLng = this.markers[i].longitude;
+        // Set zoom level when searched for a perticular stop
+        this.zoomLevelAtInit = 17;
       }
     }
   }
@@ -115,7 +118,7 @@ export class HomePage {
     ];
     const options = {
       center: location,
-      zoom: 15,
+      zoom: this.zoomLevelAtInit,
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       streetViewControl: false,
