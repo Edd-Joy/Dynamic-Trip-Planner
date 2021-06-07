@@ -31,6 +31,14 @@ export class DrawerComponent implements AfterViewInit {
 
   }
 
+  redirectToDestination(data) {
+    for (let i = 0; i < this.busDetails.length; ++i) {
+      if (this.busDetails[i].id == data) {
+        window.open('https://www.google.com/maps/dir//' + this.busDetails[i].latitude + ',' + this.busDetails[i].longitude);
+      }
+    }
+  }
+
   // Extracts ArrivalTime, BusName & Destination from firebase
   extractValues(arr, prop, prop2, prop3) {
     let extractedValue = [];

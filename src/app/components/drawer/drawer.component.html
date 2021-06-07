@@ -18,11 +18,12 @@
       </ion-col>
     </ion-row>
   </div>
-  
+
   <div *ngFor="let data of busDetailsOfStop[1]; let i = index">
     <!-- busDetailsOfStop[1] is just used for iteration-->
     <ion-list style="text-align: center;">
-      <ion-item>
+      <!--The Destination is found in busDetailsOfStop[2][i]-->
+      <ion-item (click)="redirectToDestination(busDetailsOfStop[2][i])">
         <ion-grid>
           <ion-row>
             <ion-col size="3" style="text-align: left; color: green;">

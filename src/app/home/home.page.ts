@@ -20,8 +20,8 @@ export class HomePage {
   infoWindows: any = [];
   markers: any = this.assignValues();
   currentRedirectStop: string = this.fbService.getRedirectStop();
-  redirectLat: number = 10.525092203000622;
-  redirectLng: number = 76.2142903714024;
+  redirectLat: number = this.fbService.currentUserLocation[1];
+  redirectLng: number = this.fbService.currentUserLocation[2];
   zoomLevelAtInit: number = 15;
   private _storage: Storage | null = null;
 

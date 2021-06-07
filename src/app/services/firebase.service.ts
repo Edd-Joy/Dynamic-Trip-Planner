@@ -13,6 +13,7 @@ export class FirebaseService {
   _storage: Storage | null = null;
   stopID: string;
   redirectStop: string;
+  currentUserLocation = [];
 
   constructor(private afs: AngularFirestore, private storage: Storage) {
     this.initStorage();
@@ -30,7 +31,7 @@ export class FirebaseService {
   }
 
   //To set & get stopName of selected stop to fetch data for the drawer
-  
+
   getStopID() {
     return this.stopID;
   }
@@ -39,7 +40,7 @@ export class FirebaseService {
     this.stopID = data;
   }
 
- //To set & get stopName from search and redirect to maps
+  //To set & get stopName from search and redirect to maps
 
   setRedirectStop(data) {
     this.redirectStop = data;
@@ -49,4 +50,8 @@ export class FirebaseService {
     return this.redirectStop;
   }
 
+  //Get current user location from Welcome.ts and save it to currentUserLocation
+  pushUserLocation(data) {
+    this.currentUserLocation = data;
+  }
 }
