@@ -20,6 +20,7 @@ export class DrawerComponent implements AfterViewInit {
   busDetails = [];
   busDetailsOfStop = [];
   stopName: string;
+  time: string;
 
   constructor(private plt: Platform, private gestureCtrl: GestureController, private fbService: FirebaseService) { }
 
@@ -28,7 +29,12 @@ export class DrawerComponent implements AfterViewInit {
       .subscribe(allStops => {
         this.busDetails = allStops
       });
+    this.getTime();
+  }
 
+  getTime() {
+    var date = new Date();
+    this.time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
   redirectToDestination(data) {
@@ -41,12 +47,19 @@ export class DrawerComponent implements AfterViewInit {
 
   // Extracts ArrivalTime, BusName & Destination from firebase
   extractValues(arr, prop, prop2, prop3) {
-    let extractedValue = [];
+    let extractedValue = [[], [], []];
     for (let i = 0; i < arr.length; ++i) {
+      // Iterate through all stops until it matches
       if (arr[i].id == this.stopName) {
-        extractedValue.push(arr[i][prop]);
-        extractedValue.push(arr[i][prop2]);
-        extractedValue.push(arr[i][prop3]);
+        // To extract each arrival time from the stop
+        for (let j = 0; j < arr[i][prop2].length; j++) {
+          // To check if the time has passed or not
+          if (arr[i][prop][j] > this.time) {
+            extractedValue[0].push(arr[i][prop][j]);
+            extractedValue[1].push(arr[i][prop2][j]);
+            extractedValue[2].push(arr[i][prop3][j]);
+          }
+        }
       }
     }
     return extractedValue;
