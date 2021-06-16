@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, Output, ViewChild, EventEmitter, AfterVi
 import { GestureController, Platform } from '@ionic/angular';
 import { take } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/services/firebase.service';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-drawer',
@@ -22,7 +22,7 @@ export class DrawerComponent implements AfterViewInit {
   stopName: string;
   time: string;
 
-  constructor(private plt: Platform, private gestureCtrl: GestureController, private fbService: FirebaseService) { }
+  constructor(private plt: Platform, private gestureCtrl: GestureController, private fbService: FirebaseService, private router: Router) { }
 
   ngOnInit() {
     this.fbService.getStops().pipe(take(1))
@@ -37,12 +37,9 @@ export class DrawerComponent implements AfterViewInit {
     this.time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
-  redirectToDestination(data) {
-    for (let i = 0; i < this.busDetails.length; ++i) {
-      if (this.busDetails[i].id == data) {
-        window.open('https://www.google.com/maps/dir//' + this.busDetails[i].latitude + ',' + this.busDetails[i].longitude);
-      }
-    }
+  redirectToStatusPage(data) {
+    this.router.navigate(['status']);
+    this.fbService.setCurrentBus(data);
   }
 
   // Extracts ArrivalTime, BusName & Destination from firebase

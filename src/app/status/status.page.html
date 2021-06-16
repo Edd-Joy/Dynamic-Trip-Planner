@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Route</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="split left">
+    <h1>Bus Route </h1>
+    <ion-list lines="none">
+      <ion-item *ngFor="let route of currentRoute[0]" class="border">
+        <ion-label (click)="redirectToDestination(route)">
+          <h3>{{ route }}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div class="split right">
+    <h5>Completed Stops</h5>
+    <ion-list lines="none">
+      <ion-item *ngFor="let route of completedStops">
+        <ion-icon style="color:green; margin: 15px;" name="checkmark"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
